@@ -1,0 +1,297 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Elyaf Karbon Kontrol Kulesi</title>
+<style>
+:root{
+  color-scheme: light dark;
+  --bg: light-dark(#f5f7f4,#0d1110);
+  --panel: light-dark(#ffffff,#141a18);
+  --panel2: light-dark(#f0f3ef,#1b231f);
+  --text: light-dark(#17211d,#eef4f0);
+  --muted: light-dark(#65736b,#a6b4ad);
+  --border: light-dark(#dce3de,#2b3731);
+  --accent: #2f6f55;
+  --accent2: #4b8f70;
+  --warn: #bd7a16;
+  --danger: #b54b4b;
+  --ok: #2f8057;
+  --shadow: 0 12px 32px rgba(20,45,33,.08);
+}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;background:var(--bg);color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+#app{min-height:100vh;background:var(--bg)}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer}
+.shell{display:grid;grid-template-columns:240px 1fr;min-height:100vh}
+.sidebar{border-right:1px solid var(--border);background:var(--panel);padding:22px 16px;position:sticky;top:0;height:100vh}
+.brand{display:flex;gap:12px;align-items:center;padding:4px 8px 24px}.brandmark{width:36px;height:36px;border-radius:10px;background:var(--accent);display:grid;place-items:center;color:white;font-weight:800}.brand h1{font-size:14px;margin:0}.brand small{display:block;color:var(--muted);font-size:11px;margin-top:2px}
+.nav{display:grid;gap:6px}.nav button{border:0;background:transparent;color:var(--muted);padding:11px 12px;border-radius:10px;text-align:left;font-weight:650}.nav button:hover,.nav button.active{background:var(--panel2);color:var(--text)}
+.sidebar-note{margin-top:auto;padding:12px;border:1px solid var(--border);background:var(--panel2);border-radius:12px;color:var(--muted);font-size:11px;line-height:1.5}
+main{padding:28px;max-width:1440px;width:100%;margin:0 auto}
+.topbar{display:flex;justify-content:space-between;gap:16px;align-items:flex-start;margin-bottom:24px}.eyebrow{font-size:11px;text-transform:uppercase;letter-spacing:.12em;color:var(--muted);font-weight:800}.title{margin:5px 0 0;font-size:28px;letter-spacing:-.03em}.subtitle{margin:6px 0 0;color:var(--muted);font-size:13px}.actions{display:flex;gap:8px;flex-wrap:wrap}.btn{border:1px solid var(--border);background:var(--panel);color:var(--text);padding:9px 12px;border-radius:9px;font-weight:700}.btn.primary{background:var(--accent);border-color:var(--accent);color:white}.btn.ghost{background:transparent}
+.grid{display:grid;gap:14px}.kpi-grid{grid-template-columns:repeat(5,minmax(0,1fr));margin-bottom:14px}.card{background:var(--panel);border:1px solid var(--border);border-radius:14px;box-shadow:var(--shadow);padding:16px}.card h3{font-size:12px;margin:0 0 12px}.metric-label{color:var(--muted);font-size:11px}.metric{font-size:25px;font-weight:800;letter-spacing:-.04em;margin-top:5px}.metric-sub{margin-top:6px;font-size:11px;color:var(--muted)}
+.two{grid-template-columns:1.45fr 1fr}.three{grid-template-columns:repeat(3,1fr)}
+.section-head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:12px}.section-head h2{font-size:15px;margin:0}.section-head span{font-size:11px;color:var(--muted)}
+.bars{display:grid;gap:12px}.bar-row{display:grid;grid-template-columns:75px 1fr 65px;gap:10px;align-items:center;font-size:11px}.bar{height:12px;border-radius:100px;background:var(--panel2);overflow:hidden}.bar > i{display:block;height:100%;background:var(--accent);border-radius:100px}.donut{width:150px;height:150px;border-radius:50%;background:conic-gradient(var(--accent) 0 46%, var(--accent2) 46% 88%, var(--warn) 88% 100%);position:relative;margin:auto}.donut:after{content:"";position:absolute;inset:28px;border-radius:50%;background:var(--panel)}.donut-center{position:absolute;inset:0;display:grid;place-items:center;z-index:2;font-size:18px;font-weight:800}
+.table-wrap{overflow:auto;border:1px solid var(--border);border-radius:10px}.table{width:100%;border-collapse:collapse;min-width:760px}.table th,.table td{padding:10px 11px;border-bottom:1px solid var(--border);font-size:11px;text-align:left;white-space:nowrap}.table th{background:var(--panel2);color:var(--muted);font-weight:800}.table tr:last-child td{border-bottom:0}.badge{display:inline-flex;padding:4px 7px;border-radius:999px;font-size:10px;font-weight:800}.badge.ok{background:light-dark(#e7f5ec,#173a27);color:light-dark(#1e7146,#7bd6a2)}.badge.warn{background:light-dark(#fff2dc,#402d15);color:light-dark(#87550c,#f0bd68)}.badge.neutral{background:var(--panel2);color:var(--muted)}
+.view{display:none}.view.active{display:block}.form-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.field{display:grid;gap:6px}.field label{font-size:11px;font-weight:800;color:var(--muted)}.field input,.field select,.field textarea{width:100%;border:1px solid var(--border);background:var(--panel);color:var(--text);border-radius:9px;padding:10px 11px;outline:none}.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--accent)}
+.notice{border:1px solid var(--border);background:var(--panel2);border-radius:12px;padding:12px 14px;margin-bottom:14px;font-size:11px;color:var(--muted);line-height:1.55}.notice strong{color:var(--text)}
+.source-list{display:grid;gap:9px}.source{padding:11px;border:1px solid var(--border);border-radius:10px;background:var(--panel2)}.source a{color:var(--accent2);font-size:11px;font-weight:800;text-decoration:none}.source p{margin:4px 0 0;font-size:11px;color:var(--muted)}
+.upload-zone{border:2px dashed var(--border);border-radius:14px;padding:28px;text-align:center;background:var(--panel2);transition:.2s}.upload-zone.drag{border-color:var(--accent);background:light-dark(#edf6f1,#16291f)}.upload-zone strong{display:block;font-size:14px}.upload-zone small{display:block;color:var(--muted);margin:6px 0 14px;font-size:11px}.doc-meta{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:14px}.doc-list{display:grid;gap:8px}.doc-row{display:grid;grid-template-columns:1.6fr .8fr .8fr .7fr auto;gap:10px;align-items:center;border:1px solid var(--border);padding:10px;border-radius:10px;background:var(--panel)}.doc-name{font-size:11px;font-weight:800;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.doc-sub{font-size:10px;color:var(--muted);margin-top:3px}.doc-actions{display:flex;gap:6px}.mini-btn{border:1px solid var(--border);background:var(--panel2);color:var(--text);padding:6px 8px;border-radius:7px;font-size:10px;font-weight:800}.mini-btn.danger{color:var(--danger)}
+.empty{padding:30px;text-align:center;color:var(--muted);font-size:12px;border:1px dashed var(--border);border-radius:12px}
+.toast{position:fixed;right:20px;bottom:20px;background:var(--text);color:var(--bg);padding:11px 13px;border-radius:10px;font-size:11px;font-weight:750;opacity:0;transform:translateY(8px);transition:.2s;pointer-events:none}.toast.show{opacity:1;transform:none}
+.footer-note{margin-top:18px;color:var(--muted);font-size:10px}
+.login-view{min-height:100vh;display:grid;place-items:center;padding:24px;background:var(--bg)}.login-card{width:min(430px,100%);background:var(--panel);border:1px solid var(--border);border-radius:18px;box-shadow:var(--shadow);padding:26px}.login-brand{display:flex;gap:12px;align-items:center;margin-bottom:22px}.login-brand .brandmark{width:42px;height:42px}.login-title{font-size:22px;font-weight:850;letter-spacing:-.03em}.login-sub{color:var(--muted);font-size:12px;margin-top:4px}.login-actions{display:grid;gap:9px;margin-top:16px}.user-panel{margin-top:20px;padding:12px;border:1px solid var(--border);background:var(--panel2);border-radius:12px}.user-panel strong{font-size:11px;display:block}.user-panel small{display:block;color:var(--muted);font-size:10px;margin-top:3px}.user-panel .btn{margin-top:9px;width:100%;padding:7px 9px;font-size:10px}
+@media (max-width:1100px){.kpi-grid{grid-template-columns:repeat(3,1fr)}.two{grid-template-columns:1fr}.three{grid-template-columns:1fr 1fr}.form-grid{grid-template-columns:1fr 1fr}.sidebar{position:static;height:auto}.shell{grid-template-columns:1fr}.sidebar{border-right:0;border-bottom:1px solid var(--border)}.sidebar-note{display:none}.nav{display:flex;overflow:auto}.nav button{white-space:nowrap}}
+@media (max-width:1100px){.doc-meta{grid-template-columns:1fr 1fr}.doc-row{grid-template-columns:1fr 1fr}.doc-actions{justify-content:flex-start}}
+@media (max-width:720px){main{padding:18px}.kpi-grid{grid-template-columns:1fr 1fr}.three,.form-grid{grid-template-columns:1fr}.topbar{flex-direction:column}.title{font-size:22px}}
+</style>
+</head>
+<body>
+<div id="app">
+<section id="loginView" class="login-view">
+  <div class="login-card">
+    <div class="login-brand"><div class="brandmark">E</div><div><div class="login-title">Elyaf Karbon</div><div class="login-sub">Kilis Karbon Kontrol Kulesi</div></div></div>
+    <div class="field"><label>E-posta</label><input id="loginEmail" type="email" autocomplete="email" placeholder="ornek@elyafgroup.com" required></div>
+    <div class="field" style="margin-top:12px"><label>Şifre</label><input id="loginPassword" type="password" autocomplete="current-password" placeholder="••••••••" required></div>
+    <div class="login-actions"><button class="btn primary" id="loginBtn">Giriş yap</button><button class="btn" id="signupBtn">Yeni hesap oluştur</button></div>
+    <div class="notice" id="loginMessage" style="margin-top:14px;display:none"></div>
+  </div>
+</section>
+<div id="appShell" class="shell" style="display:none">
+<aside class="sidebar">
+  <div class="brand"><div class="brandmark">E</div><div><h1>Elyaf Karbon</h1><small>Kontrol Kulesi · Kilis</small></div></div>
+  <nav class="nav">
+    <button class="active" data-view="dashboard">Gösterge Paneli</button>
+    <button data-view="entry">Aylık Veri Girişi</button>
+    <button data-view="activity">Veri Kayıtları</button>
+    <button data-view="documents">Belge Arşivi</button>
+    <button data-view="factors">Emisyon Faktörleri</button>
+    <button data-view="reports">Raporlar</button>
+  </nav>
+  <div id="userPanel" class="user-panel" style="display:none"><strong id="userName">Kullanıcı</strong><small id="userRole">Rol</small><button class="btn" id="logoutBtn">Çıkış yap</button></div>
+  <div class="sidebar-note"><strong>Veri prensibi</strong><br>Çalışanlar yalnızca faaliyet verisi ve belge kaynağı girer. Emisyon faktörü, kapsam sınıfı ve hesaplama sistemi tarafından uygulanır.</div>
+</aside>
+<main>
+<section id="dashboard" class="view active">
+  <div class="topbar"><div><div class="eyebrow">Elyaf Group · Tekstil San. ve Tic. A.Ş. · Kilis Şubesi</div><h1 class="title">Karbon Kontrol Kulesi</h1><p class="subtitle">Konfeksiyon ve yeni parça baskı tesisi için merkezi karbon veri yönetimi.</p></div><div class="actions"><button class="btn" id="demoBtn">Örnek verileri yükle</button><button class="btn primary" data-nav="entry">+ Veri gir</button></div></div>
+  <div class="notice"><strong>Merkezi sistem:</strong> Oturum açıldığında veriler Supabase veritabanından okunur; faaliyet kayıtları merkezi olarak saklanır ve belgeler güvenli arşive yüklenir.</div>
+  <div class="grid kpi-grid">
+    <div class="card"><div class="metric-label">Toplam emisyon</div><div class="metric" id="kpiTotal">0.0 tCO₂e</div><div class="metric-sub">Yıl başından bugüne · girilmiş veriler</div></div>
+    <div class="card"><div class="metric-label">Kapsam 1</div><div class="metric" id="kpiS1">0.0 t</div><div class="metric-sub">Yakıt / doğalgaz</div></div>
+    <div class="card"><div class="metric-label">Kapsam 2</div><div class="metric" id="kpiS2">0.0 t</div><div class="metric-sub">Elektrik</div></div>
+    <div class="card"><div class="metric-label">Kapsam 3</div><div class="metric" id="kpiS3">0.0 t</div><div class="metric-sub">Değer zinciri</div></div>
+    <div class="card"><div class="metric-label">Veri tamlığı</div><div class="metric" id="kpiCompleteness">0%</div><div class="metric-sub">Beklenen aylık alanlara göre</div></div>
+  </div>
+  <div class="grid two">
+    <div class="card"><div class="section-head"><h2>Aylık emisyon eğilimi</h2><span>tCO₂e</span></div><div id="trendBars" class="bars"></div></div>
+    <div class="card"><div class="section-head"><h2>Kapsam dağılımı</h2><span>Yıl başından bugüne</span></div><div style="display:grid;grid-template-columns:180px 1fr;gap:18px;align-items:center"><div class="donut"><div class="donut-center" id="donutTotal">0 t</div></div><div class="bars" id="scopeBars"></div></div></div>
+  </div>
+  <div class="grid three" style="margin-top:14px">
+    <div class="card"><div class="section-head"><h2>Üretim merkezi</h2><span>2026 yıl başından bugüne</span></div><div class="bars" id="centerBars"></div></div>
+    <div class="card"><div class="section-head"><h2>Enerji yoğunluğu</h2><span>Yıl başından bugüne</span></div><div class="bars" id="intensityBars"></div></div>
+    <div class="card"><div class="section-head"><h2>Eksik / kontrol gerektiren veriler</h2><span>Aksiyon listesi</span></div><div id="issues" class="source-list"></div></div>
+  </div>
+  <div class="footer-note">Elektrik faktörü: ETKB'nin 31.12.2025 güncellenmiş tüketim noktası faktörleri. Dağıtım hattı 0,469 tCO₂e/MWh; iletim hattı 0,436 tCO₂e/MWh. Tesise uygun bağlantı türü sistem ayarlarında kesinleştirilecek.</div>
+</section>
+
+<section id="entry" class="view">
+  <div class="topbar"><div><div class="eyebrow">Aylık faaliyet verisi</div><h1 class="title">Yeni veri kaydı</h1><p class="subtitle">Emisyon hesabını değil, kaynak veriyi girin. Belge veya sayaç kaynağı ekleyin.</p></div></div>
+  <div class="notice"><strong>Önerilen iş akışı:</strong> Ay → tesis/üretim merkezi → faaliyet alanı → miktar → kaynak belge → onay. Kaynak belgeyi önce Belge Arşivi'ne yükleyip bu formdan ilgili kayda bağlayabilirsiniz.</div>
+  <form id="entryForm" class="card">
+    <div class="form-grid">
+      <div class="field"><label>Dönem</label><input id="period" type="month" required></div>
+      <div class="field"><label>Üretim merkezi</label><select id="center"><option>Konfeksiyon Üretimi</option><option>Parça Baskı Üretimi</option><option>Tesis / Ortak Alanlar</option></select></div>
+      <div class="field"><label>Faaliyet</label><select id="activity"><option value="electricity">Elektrik</option><option value="natural_gas">Doğalgaz</option><option value="diesel">Motorin</option><option value="water">Su</option><option value="production">Üretim miktarı</option><option value="fabric">Kumaş tüketimi</option><option value="waste">Atık</option><option value="employee_count">Çalışan sayısı</option></select></div>
+      <div class="field"><label>Miktar</label><input id="quantity" type="number" step="0.001" min="0" required placeholder="ör. 125450"></div>
+      <div class="field"><label>Birim</label><select id="unit"><option>kWh</option><option>Sm³</option><option>L</option><option>m³</option><option>adet</option><option>kg</option><option>kişi</option></select></div>
+      <div class="field"><label>Kaynak / belge no</label><input id="source" placeholder="ör. ELEK-2026-09"></div>
+      <div class="field"><label>Kaynak belge</label><select id="sourceDocument"><option value="">Belge seçilmedi</option></select></div>
+      <div class="field"><label>Not</label><textarea id="note" rows="3" placeholder="Sayaç no, fatura açıklaması vb."></textarea></div>
+      <div class="field" style="align-self:end"><button class="btn primary" type="submit">Kaydı oluştur</button></div>
+    </div>
+  </form>
+  <div class="card" style="margin-top:14px"><div class="section-head"><h2>Beklenen aylık veri seti</h2><span>İlk sürüm</span></div><div class="table-wrap"><table class="table"><thead><tr><th>Alan</th><th>Üretim merkezi</th><th>Kaynak</th><th>Emisyon kapsamı</th></tr></thead><tbody><tr><td>Elektrik</td><td>Konfeksiyon / Baskı / Ortak alan</td><td>Fatura veya sayaç</td><td>Kapsam 2</td></tr><tr><td>Doğalgaz</td><td>Konfeksiyon / Baskı</td><td>Sayaç / fatura</td><td>Kapsam 1</td></tr><tr><td>Üretim</td><td>Konfeksiyon / Baskı</td><td>Üretim raporu</td><td>Yoğunluk paydası</td></tr><tr><td>Su</td><td>Merkez bazlı mümkünse</td><td>Sayaç / fatura</td><td>Kapsam 3 veya ayrı çevresel KPI</td></tr><tr><td>Atık</td><td>Merkez bazlı</td><td>Atık teslim / tartım belgesi</td><td>Kapsam 3 Kategori 5</td></tr></tbody></table></div></div>
+</section>
+
+<section id="activity" class="view">
+  <div class="topbar"><div><div class="eyebrow">Merkezi kayıt</div><h1 class="title">Veri kayıtları</h1><p class="subtitle">Tüm girişlerin kaynak ve hesap durumu.</p></div><div class="actions"><button class="btn" id="exportBtn">CSV dışa aktar</button><button class="btn" id="clearBtn">Yerel örnek verilerini temizle</button></div></div>
+  <div class="card"><div class="table-wrap"><table class="table" id="recordsTable"></table></div></div>
+</section>
+
+<section id="documents" class="view">
+  <div class="topbar"><div><div class="eyebrow">Kaynak belge yönetimi</div><h1 class="title">Belge Arşivi</h1><p class="subtitle">Elektrik ve doğalgaz faturaları, üretim raporları, atık belgeleri, Excel dosyaları ve diğer kanıtları tek yerde tutun.</p></div><div class="actions"><button class="btn" id="docExportBtn">Belge listesini CSV aktar</button></div></div>
+  <div class="notice"><strong>Belge mantığı:</strong> Her belge döneme, üretim merkezine, belge türüne ve açıklamaya bağlanır. Dosyanın kendisi güvenli belge depolamasında, kayıt bilgileri ise veritabanında tutulur.</div>
+  <div class="card">
+    <div id="dropZone" class="upload-zone"><strong>PDF veya Excel dosyanı buraya bırak</strong><small>Desteklenen türler: PDF, XLSX, XLS, CSV. Bir veya birden fazla dosya seçebilirsin.</small><input id="docFiles" type="file" multiple accept="application/pdf,.xlsx,.xls,.csv" class="btn" style="max-width:100%"></div>
+    <div class="doc-meta">
+      <div class="field"><label>Dönem</label><input id="docPeriod" type="month" value="2026-09"></div>
+      <div class="field"><label>Üretim merkezi</label><select id="docCenter"><option>Konfeksiyon Üretimi</option><option>Parça Baskı Üretimi</option><option>Tesis / Ortak Alanlar</option></select></div>
+      <div class="field"><label>Belge türü</label><select id="docType"><option value="electricity_bill">Elektrik faturası</option><option value="natural_gas_bill">Doğalgaz faturası</option><option value="production_report">Üretim raporu</option><option value="water_bill">Su faturası</option><option value="waste_document">Atık teslim belgesi</option><option value="material_report">Kumaş / malzeme raporu</option><option value="other">Diğer</option></select></div>
+    </div>
+    <div class="doc-meta">
+      <div class="field"><label>Açıklama</label><input id="docNote" placeholder="Örn. Eylül 2026 elektrik faturası"></div>
+      <div class="field" style="align-self:end"><button class="btn primary" id="saveDocsBtn">Belgeleri arşive kaydet</button></div>
+    </div>
+  </div>
+  <div class="card" style="margin-top:14px"><div class="section-head"><h2>Arşivlenen belgeler</h2><span id="docCount">0 belge</span></div><div id="docList" class="doc-list"></div></div>
+  <div class="card" style="margin-top:14px"><div class="section-head"><h2>Gerçek veritabanı yapısı</h2><span>Aktif</span></div><div class="table-wrap"><table class="table"><thead><tr><th>Tablo</th><th>Amaç</th><th>Temel alanlar</th></tr></thead><tbody><tr><td>carbon_records</td><td>Faaliyet verileri</td><td>dönem, merkez, faaliyet, miktar, birim, kaynak belge</td></tr><tr><td>documents</td><td>Belge metadata'sı</td><td>dosya adı, tür, dönem, merkez, veri türü, yükleyen, tarih, depolama yolu</td></tr><tr><td>emission_factors</td><td>Emisyon faktörleri</td><td>faktör, değer, birim, yıl, kaynak, onay</td></tr><tr><td>profiles</td><td>Kullanıcı ve roller</td><td>ad, e-posta, rol, aktiflik</td></tr><tr><td>audit_log</td><td>Değişiklik geçmişi</td><td>kullanıcı, işlem, kayıt, tarih</td></tr></tbody></table></div></div>
+</section>
+
+<section id="factors" class="view">
+  <div class="topbar"><div><div class="eyebrow">Kontrollü faktör kütüphanesi</div><h1 class="title">Emisyon faktörleri</h1><p class="subtitle">Her faktör: yıl + birim + kaynak + uygulama alanı ile saklanır.</p></div></div>
+  <div class="card"><div class="table-wrap"><table class="table"><thead><tr><th>Faktör</th><th>Değer</th><th>Birim</th><th>Yıl</th><th>Kaynak</th><th>Durum</th></tr></thead><tbody id="factorTable"></tbody></table></div></div>
+  <div class="notice" style="margin-top:14px"><strong>Kontrol:</strong> Doğalgaz, motorin, atık ve Kapsam 3 faktörlerini resmi/kurumsal metodolojiye göre faktör kütüphanesine eklemeden “nihai rapor” olarak kabul etmeyeceğiz. Bu prototipte bu alanlar bilinçli olarak “bekliyor” durumunda.</div>
+</section>
+
+<section id="reports" class="view">
+  <div class="topbar"><div><div class="eyebrow">Çıktı</div><h1 class="title">Raporlama</h1><p class="subtitle">Yıllık envanter, müşteri verisi ve yönetim göstergeleri için temel çıktı yapısı.</p></div></div>
+  <div class="grid three">
+    <div class="card"><h3>Kurumsal sera gazı envanteri</h3><p class="metric-sub">Kapsam 1 / 2 / 3, faaliyet verileri, faktörler ve metodoloji.</p><button class="btn primary" id="reportSummary">Özet oluştur</button></div>
+    <div class="card"><h3>Yönetim göstergeleri paketi</h3><p class="metric-sub">tCO₂e, kgCO₂e/ürün, kWh/ürün, doğalgaz/ürün ve veri tamlığı.</p><button class="btn" id="kpiSummary">Gösterge metnini oluştur</button></div>
+    <div class="card"><h3>Denetim kanıtları dizini</h3><p class="metric-sub">Her veri kaydının kaynak belge numarası ve onay durumu.</p><button class="btn" id="evidenceSummary">Kanıt listesini göster</button></div>
+  </div>
+  <div class="card" style="margin-top:14px"><div class="section-head"><h2>Metodoloji ve kaynaklar</h2><span>Prototip</span></div><div class="source-list">
+    <div class="source"><a href="https://ghgprotocol.org/corporate-standard" target="_blank" rel="noreferrer">GHG Protocol · Kurumsal Standart</a><p>Kurumsal sera gazı envanteri ve Kapsam 1/2 yaklaşımının temel metodolojisi.</p></div>
+    <div class="source"><a href="https://enerji.gov.tr/evced-cevre-ve-iklim-elektrik-uretim-tuketim-emisyon-faktorleri" target="_blank" rel="noreferrer">T.C. Enerji ve Tabii Kaynaklar Bakanlığı · Elektrik tüketim noktası faktörleri</a><p>31.12.2025 güncellemesi: dağıtım 0,469; iletim 0,436 tCO₂e/MWh.</p></div>
+  </div></div>
+</section>
+</main>
+</div>
+<div id="toast" class="toast"></div>
+<script>
+const FACTORS = [
+ {name:'Türkiye elektrik tüketim noktası · dağıtım',value:0.469,unit:'tCO₂e/MWh',year:2023,source:'ETKB · 31.12.2025 güncellemesi',status:'active'},
+ {name:'Türkiye elektrik tüketim noktası · iletim',value:0.436,unit:'tCO₂e/MWh',year:2023,source:'ETKB · 31.12.2025 güncellemesi',status:'active'},
+ {name:'Doğalgaz · Kapsam 1',value:null,unit:'tCO₂e/Sm³',year:null,source:'Doğrulanacak',status:'pending'},
+ {name:'Motorin · Kapsam 1',value:null,unit:'tCO₂e/L',year:null,source:'Doğrulanacak',status:'pending'},
+ {name:'Atık · Kapsam 3 Kategori 5',value:null,unit:'tCO₂e/kg',year:null,source:'Atık yöntemine göre',status:'pending'}
+];
+const STORAGE='elyaf-kilis-carbon-v1';
+const seed = [
+ {id:1,period:'2026-01',center:'Garment Production',activity:'electricity',quantity:102000,unit:'kWh',source:'ELEK-2026-01',note:'Örnek',approved:true},
+ {id:2,period:'2026-02',center:'Garment Production',activity:'electricity',quantity:110500,unit:'kWh',source:'ELEK-2026-02',note:'Örnek',approved:true},
+ {id:3,period:'2026-03',center:'Garment Production',activity:'electricity',quantity:118400,unit:'kWh',source:'ELEK-2026-03',note:'Örnek',approved:true},
+ {id:4,period:'2026-04',center:'Garment Production',activity:'electricity',quantity:121300,unit:'kWh',source:'ELEK-2026-04',note:'Örnek',approved:true},
+ {id:5,period:'2026-05',center:'Garment Production',activity:'electricity',quantity:127800,unit:'kWh',source:'ELEK-2026-05',note:'Örnek',approved:true},
+ {id:6,period:'2026-06',center:'Garment Production',activity:'electricity',quantity:130200,unit:'kWh',source:'ELEK-2026-06',note:'Örnek',approved:true},
+ {id:7,period:'2026-07',center:'Garment Production',activity:'electricity',quantity:125600,unit:'kWh',source:'ELEK-2026-07',note:'Örnek',approved:true},
+ {id:8,period:'2026-08',center:'Garment Production',activity:'electricity',quantity:129900,unit:'kWh',source:'ELEK-2026-08',note:'Örnek',approved:true},
+ {id:9,period:'2026-09',center:'Garment Production',activity:'electricity',quantity:0,unit:'kWh',source:'',note:'Gerçek fatura bekleniyor',approved:false},
+ {id:10,period:'2026-09',center:'Garment Production',activity:'natural_gas',quantity:0,unit:'Sm³',source:'',note:'Doğalgaz faktörü bekleniyor',approved:false},
+ {id:11,period:'2026-09',center:'Garment Production',activity:'production',quantity:185000,unit:'adet',source:'PROD-2026-09',note:'Örnek üretim',approved:true},
+];
+function getData(){try{const x=localStorage.getItem(STORAGE);return x?JSON.parse(x):seed.slice()}catch(e){return seed.slice()}}
+let records=getData();
+function save(){localStorage.setItem(STORAGE,JSON.stringify(records));}
+function factorFor(activity){if(activity==='electricity')return FACTORS[0].value;return null}
+function emission(r){if(r.activity==='electricity')return (r.quantity/1000)*factorFor(r.activity);return 0}
+function esc(s){return String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
+function fmt(n,d=1){return new Intl.NumberFormat('tr-TR',{maximumFractionDigits:d}).format(n)}
+function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2200)}
+function render(){
+  const s1=records.filter(r=>r.activity==='natural_gas'||r.activity==='diesel').reduce((a,r)=>a+emission(r),0);
+  const s2=records.filter(r=>r.activity==='electricity').reduce((a,r)=>a+emission(r),0);
+  const s3=records.filter(r=>['waste','fabric'].includes(r.activity)).reduce((a,r)=>a+emission(r),0);
+  const total=s1+s2+s3;
+  const expectedMonths=[...new Set(records.map(r=>r.period))].length||12;
+  const requiredPerMonth=5;
+  const complete=new Set(records.filter(r=>r.quantity>0 && r.source).map(r=>r.period+'|'+r.activity));
+  const completeness=Math.min(100,Math.round((complete.size/(expectedMonths*requiredPerMonth))*100));
+  document.getElementById('kpiTotal').textContent=fmt(total,1)+' tCO₂e';
+  document.getElementById('kpiS1').textContent=fmt(s1,1)+' t';document.getElementById('kpiS2').textContent=fmt(s2,1)+' t';document.getElementById('kpiS3').textContent=fmt(s3,1)+' t';document.getElementById('kpiCompleteness').textContent=completeness+'%';document.getElementById('donutTotal').textContent=fmt(total,1)+' t';
+  const months=['01','02','03','04','05','06','07','08','09','10','11','12'];
+  const vals=months.map(m=>records.filter(r=>r.period.endsWith('-'+m)).reduce((a,r)=>a+emission(r),0)); const max=Math.max(...vals,1);
+  document.getElementById('trendBars').innerHTML=months.map((m,i)=>`<div class="bar-row"><span>${m}</span><div class="bar"><i style="width:${(vals[i]/max)*100}%"></i></div><b>${fmt(vals[i],1)}</b></div>`).join('');
+  const scopeVals=[['Kapsam 1',s1],['Kapsam 2',s2],['Kapsam 3',s3]]; const sm=Math.max(...scopeVals.map(x=>x[1]),1);
+  document.getElementById('scopeBars').innerHTML=scopeVals.map(([n,v])=>`<div class="bar-row"><span>${n}</span><div class="bar"><i style="width:${(v/sm)*100}%"></i></div><b>${fmt(v,1)} t</b></div>`).join('');
+  const centers=[...new Set(records.map(r=>r.center))]; const cv=centers.map(c=>[c,records.filter(r=>r.center===c).reduce((a,r)=>a+emission(r),0)]); const cm=Math.max(...cv.map(x=>x[1]),1);
+  document.getElementById('centerBars').innerHTML=cv.map(([n,v])=>`<div class="bar-row"><span>${esc(n.replace(' Production',''))}</span><div class="bar"><i style="width:${(v/cm)*100}%"></i></div><b>${fmt(v,1)} t</b></div>`).join('');
+  const elec=records.filter(r=>r.activity==='electricity').reduce((a,r)=>a+r.quantity,0); const prod=records.filter(r=>r.activity==='production').reduce((a,r)=>a+r.quantity,0); const kwhPer=prod?elec/prod:0; const tPer=prod?(s2*1000/prod):0;
+  document.getElementById('intensityBars').innerHTML=`<div class="bar-row"><span>kWh/ad.</span><div class="bar"><i style="width:${Math.min(100,kwhPer*40)}%"></i></div><b>${fmt(kwhPer,3)}</b></div><div class="bar-row"><span>kgCO₂e/ad.</span><div class="bar"><i style="width:${Math.min(100,tPer*700)}%"></i></div><b>${fmt(tPer,4)}</b></div><div class="bar-row"><span>Çalışan</span><div class="bar"><i style="width:92%"></i></div><b>275</b></div>`;
+  document.getElementById('issues').innerHTML=`<div class="source"><strong style="font-size:11px">Doğalgaz faktörü</strong><p>Doğrulanmış faktör eklenmeden Kapsam 1 tam hesaplanamaz.</p><span class="badge warn">Bekliyor</span></div><div class="source"><strong style="font-size:11px">Eylül elektrik kaynağı</strong><p>Örnek kaydındaki tüketim 0; gerçek fatura/sayaç bekleniyor.</p><span class="badge warn">Kontrol</span></div><div class="source"><strong style="font-size:11px">Baskı tesisi</strong><p>Devreye alma öncesi sayaç ve makine listesi bekleniyor.</p><span class="badge neutral">Planlandı</span></div>`;
+  renderTable();
+}
+function renderTable(){const table=document.getElementById('recordsTable'); const rows=records.slice().sort((a,b)=>b.period.localeCompare(a.period)||b.id-a.id);const faaliyet={electricity:'Elektrik',natural_gas:'Doğalgaz',diesel:'Motorin',water:'Su',production:'Üretim miktarı',fabric:'Kumaş tüketimi',waste:'Atık',employees:'Çalışan sayısı'};const merkez={'Garment Production':'Konfeksiyon Üretimi','Printing Production':'Parça Baskı Üretimi','Site / Common Areas':'Tesis / Ortak Alanlar','Konfeksiyon Üretimi':'Konfeksiyon Üretimi','Parça Baskı Üretimi':'Parça Baskı Üretimi','Tesis / Ortak Alanlar':'Tesis / Ortak Alanlar'};table.innerHTML=`<thead><tr><th>Dönem</th><th>Merkez</th><th>Faaliyet</th><th>Miktar</th><th>Kaynak</th><th>Emisyon</th><th>Durum</th></tr></thead><tbody>${rows.map(r=>{const e=emission(r);return `<tr><td>${esc(r.period)}</td><td>${esc(merkez[r.center]||r.center)}</td><td>${esc(faaliyet[r.activity]||r.activity)}</td><td>${fmt(r.quantity,3)} ${esc(r.unit)}</td><td>${esc(r.source||'—')}</td><td>${e?fmt(e,4)+' tCO₂e':'—'}</td><td>${r.approved?'<span class="badge ok">Onaylı</span>':'<span class="badge warn">Kontrol</span>'}</td></tr>`}).join('')}</tbody>`}
+function renderFactors(){document.getElementById('factorTable').innerHTML=FACTORS.map(f=>`<tr><td>${esc(f.name)}</td><td>${f.value==null?'—':fmt(f.value,3)}</td><td>${esc(f.unit)}</td><td>${f.year||'—'}</td><td>${esc(f.source)}</td><td>${f.status==='active'?'<span class="badge ok">Aktif</span>':'<span class="badge warn">Bekliyor</span>'}</td></tr>`).join('')}
+function nav(view){document.querySelectorAll('.view').forEach(v=>v.classList.toggle('active',v.id===view));document.querySelectorAll('.nav button').forEach(b=>b.classList.toggle('active',b.dataset.view===view));window.scrollTo(0,0)}
+document.querySelectorAll('.nav button').forEach(b=>b.addEventListener('click',()=>nav(b.dataset.view)));document.querySelectorAll('[data-nav]').forEach(b=>b.addEventListener('click',()=>nav(b.dataset.nav)));
+document.getElementById('entryForm').addEventListener('submit',e=>{e.preventDefault();const r={id:Date.now(),period:period.value,center:center.value,activity:activity.value,quantity:Number(quantity.value),unit:unit.value,source:source.value,note:note.value,approved:false};records.push(r);save();render();e.target.reset();period.value='2026-09';toast('Veri kaydı oluşturuldu. Kontrol durumunda.')});
+document.getElementById('demoBtn').addEventListener('click',()=>{records=seed.slice();save();render();toast('Örnek veri seti yüklendi.')});
+document.getElementById('clearBtn').addEventListener('click',()=>{records=[];save();render();toast('Yerel veri temizlendi.')});
+document.getElementById('exportBtn').addEventListener('click',()=>{const head=['period','center','activity','quantity','unit','source','note','approved'];const csv=[head.join(','),...records.map(r=>head.map(k=>'"'+String(r[k]??'').replaceAll('"','""')+'"').join(','))].join('\n');const blob=new Blob([csv],{type:'text/csv;charset=utf-8'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='elyaf-kilis-carbon-records.csv';a.click();URL.revokeObjectURL(a.href)});
+document.getElementById('reportSummary').addEventListener('click',()=>{const s2=records.filter(r=>r.activity==='electricity').reduce((a,r)=>a+emission(r),0);toast('Yıl başından bugüne elektrik kaynaklı Kapsam 2: '+fmt(s2,1)+' tCO₂e')});
+document.getElementById('kpiSummary').addEventListener('click',()=>{const elec=records.filter(r=>r.activity==='electricity').reduce((a,r)=>a+r.quantity,0);toast('Yıl başından bugüne elektrik: '+fmt(elec,0)+' kWh')});
+document.getElementById('evidenceSummary').addEventListener('click',()=>{const missing=records.filter(r=>!r.source).length;toast(missing+' kayıt kaynak belgesi olmadan bekliyor')});
+
+// Belge arşivi: prototipte dosya içeriği tarayıcı IndexedDB'de, metadata aynı kayıtla birlikte tutulur.
+const DOC_DB='elyaf-belge-arsivi'; const DOC_STORE='belgeler'; let selectedDocs=[];
+function openDocDb(){return new Promise((resolve,reject)=>{const req=indexedDB.open(DOC_DB,1);req.onupgradeneeded=()=>{const db=req.result;if(!db.objectStoreNames.contains(DOC_STORE))db.createObjectStore(DOC_STORE,{keyPath:'id',autoIncrement:true})};req.onsuccess=()=>resolve(req.result);req.onerror=()=>reject(req.error)})}
+async function addDocs(){if(!selectedDocs.length){toast('Önce dosya seçin veya sürükleyip bırakın.');return}const db=await openDocDb();const tx=db.transaction(DOC_STORE,'readwrite');const store=tx.objectStore(DOC_STORE);for(const f of selectedDocs){store.add({name:f.name,size:f.size,type:f.type,period:docPeriod.value,center:docCenter.value,docType:docType.value,note:docNote.value,uploadedAt:new Date().toISOString(),blob:f})}tx.oncomplete=()=>{selectedDocs=[];document.getElementById('docFiles').value='';document.getElementById('docNote').value='';renderDocs();toast('Belgeler arşive kaydedildi.')}}
+async function renderDocs(){const db=await openDocDb();const tx=db.transaction(DOC_STORE,'readonly');const req=tx.objectStore(DOC_STORE).getAll();req.onsuccess=()=>{const arr=req.result.sort((a,b)=>b.uploadedAt.localeCompare(a.uploadedAt));document.getElementById('docCount').textContent=arr.length+' belge';document.getElementById('docList').innerHTML=arr.length?arr.map(d=>`<div class="doc-row"><div><div class="doc-name">${esc(d.name)}</div><div class="doc-sub">${esc(d.docType)} · ${esc(d.period)} · ${fmt(d.size/1024,1)} KB</div></div><div class="doc-sub">${esc(d.center)}</div><div class="doc-sub">${esc(d.note||'—')}</div><div><span class="badge ok">Arşivde</span></div><div class="doc-actions"><button class="mini-btn" data-doc-open="${d.id}">Aç</button><button class="mini-btn danger" data-doc-delete="${d.id}">Sil</button></div></div>`).join(''):'<div class="empty">Henüz belge yüklenmedi.</div>';document.querySelectorAll('[data-doc-open]').forEach(b=>b.onclick=async()=>{const id=Number(b.dataset.docOpen);const db=await openDocDb();const q=db.transaction(DOC_STORE,'readonly').objectStore(DOC_STORE).get(id);q.onsuccess=()=>{const d=q.result;if(!d)return;const url=URL.createObjectURL(d.blob);const a=document.createElement('a');a.href=url;a.target='_blank';a.rel='noreferrer';a.click();setTimeout(()=>URL.revokeObjectURL(url),1500)}});document.querySelectorAll('[data-doc-delete]').forEach(b=>b.onclick=async()=>{const id=Number(b.dataset.docDelete);const db=await openDocDb();const tx=db.transaction(DOC_STORE,'readwrite');tx.objectStore(DOC_STORE).delete(id);tx.oncomplete=()=>renderDocs()})}}
+document.getElementById('docFiles').addEventListener('change',e=>{selectedDocs=[...e.target.files];toast(selectedDocs.length+' dosya seçildi')});
+document.getElementById('saveDocsBtn').addEventListener('click',addDocs);
+const dz=document.getElementById('dropZone');['dragenter','dragover'].forEach(ev=>dz.addEventListener(ev,e=>{e.preventDefault();dz.classList.add('drag')}));['dragleave','drop'].forEach(ev=>dz.addEventListener(ev,e=>{e.preventDefault();dz.classList.remove('drag')}));dz.addEventListener('drop',e=>{selectedDocs=[...e.dataTransfer.files];toast(selectedDocs.length+' dosya seçildi')});
+document.getElementById('docExportBtn').addEventListener('click',async()=>{const db=await openDocDb();const q=db.transaction(DOC_STORE,'readonly').objectStore(DOC_STORE).getAll();q.onsuccess=()=>{const head=['dosya','boyut_kb','dönem','merkez','belge_türü','açıklama','yüklenme_tarihi'];const csv=[head.join(','),...q.result.map(d=>[d.name,(d.size/1024).toFixed(1),d.period,d.center,d.docType,d.note||'',d.uploadedAt].map(v=>'"'+String(v).replaceAll('"','""')+'"').join(','))].join('\n');const blob=new Blob([csv],{type:'text/csv;charset=utf-8'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='elyaf-belge-arsivi.csv';a.click();URL.revokeObjectURL(a.href)}});
+renderDocs();
+period.value='2026-09'; renderFactors(); render();
+</script>
+<script>
+const SB_URL='https://tmyewbqkznavnqosxwtr.supabase.co';
+const SB_KEY='sb_publishable_NeYB3d_BBBF7btHVdrc4Hg_cp3_EJdO';
+const AUTH_KEY='elyaf-carbon-session';
+let remoteSession=JSON.parse(sessionStorage.getItem(AUTH_KEY)||'null');
+let remoteUser=null, remoteProfile=null, facility=null, centers=[], remoteFactors=[], remoteRecords=[], remoteDocs=[];
+const activityLabels={electricity:'Elektrik',natural_gas:'Doğalgaz',diesel:'Motorin',gasoline:'Benzin',lpg:'LPG',water:'Su',production:'Üretim miktarı',fabric:'Kumaş tüketimi',packaging:'Ambalaj',waste:'Atık',employee_count:'Çalışan sayısı',employee_commuting:'Çalışan ulaşımı',business_travel:'İş seyahati',upstream_transport:'Girdi taşımacılığı',other:'Diğer'};
+const docTypeLabels={electricity_bill:'Elektrik faturası',natural_gas_bill:'Doğalgaz faturası',fuel_bill:'Yakıt faturası',water_bill:'Su faturası',production_report:'Üretim raporu',waste_document:'Atık teslim belgesi',material_report:'Kumaş / malzeme raporu',meter_reading:'Sayaç okuması',audit_evidence:'Denetim kanıtı',other:'Diğer'};
+const roleLabels={admin:'Yönetici',sustainability:'Sürdürülebilirlik',environment:'Çevre',energy:'Enerji',production:'Üretim',hr:'İK',data_entry:'Veri girişi',viewer:'Görüntüleyici'};
+function headers(extra={}){return Object.assign({'apikey':SB_KEY,'Content-Type':'application/json'},extra)}
+async function refreshRemoteSession(){if(!remoteSession?.refresh_token)return false;const r=await fetch(SB_URL+'/auth/v1/token?grant_type=refresh_token',{method:'POST',headers:headers(),body:JSON.stringify({refresh_token:remoteSession.refresh_token})});if(!r.ok){sessionStorage.removeItem(AUTH_KEY);remoteSession=null;return false}remoteSession=await r.json();sessionStorage.setItem(AUTH_KEY,JSON.stringify(remoteSession));return true}
+async function sb(path,options={},retry=true){const h=headers();if(remoteSession?.access_token)h.Authorization='Bearer '+remoteSession.access_token;const init=Object.assign({},options,{headers:Object.assign(h,options.headers||{})});let r=await fetch(SB_URL+path,init);if(r.status===401&&retry&&remoteSession?.refresh_token){if(await refreshRemoteSession())return sb(path,options,false)}const ct=r.headers.get('content-type')||'';const body=ct.includes('application/json')?await r.json():await r.text();if(!r.ok)throw new Error(body?.message||body?.msg||body?.error_description||body?.error||('İstek başarısız: '+r.status));return body}
+function showLoginMessage(msg,ok=false){const el=document.getElementById('loginMessage');el.style.display='block';el.textContent=msg;el.style.borderColor=ok?'var(--ok)':'var(--border)'}
+function showApp(){document.getElementById('loginView').style.display='none';document.getElementById('appShell').style.display='grid';document.getElementById('userPanel').style.display='block'}
+function showLogin(){document.getElementById('loginView').style.display='grid';document.getElementById('appShell').style.display='none';document.getElementById('userPanel').style.display='none'}
+function replaceNode(id){const el=document.getElementById(id);if(!el)return null;const clone=el.cloneNode(true);el.replaceWith(clone);return clone}
+function emissionFor(r){const f=remoteFactors.filter(x=>x.activity_type===r.activity_type&&(x.status==='approved'||x.status==='active')&&x.value!=null).sort((a,b)=>(b.year||0)-(a.year||0))[0];if(!f)return null;const u=(f.unit||'').toLowerCase(),q=Number(r.quantity||0);if(u.includes('/mwh')&&String(r.unit).toLowerCase()==='kwh')return q/1000*Number(f.value);return q*Number(f.value)}
+function centerName(id){return centers.find(c=>c.id===id)?.name||'Tesis / Ortak Alanlar'}
+function centerIdByName(name){return centers.find(c=>c.name===name)?.id||null}
+function formatPeriod(p){return p?String(p).slice(0,7):''}
+async function loadRemoteState(){
+  remoteUser=remoteSession.user||{};
+  remoteProfile=(await sb('/rest/v1/profiles?id=eq.'+encodeURIComponent(remoteUser.id)+'&select=*'))[0]||null;
+  facility=(await sb('/rest/v1/facilities?name=eq.'+encodeURIComponent('Elyaf Group – Kilis')+'&select=*'))[0]||null;if(!facility)throw new Error('Elyaf Group – Kilis tesisi bulunamadı.');
+  centers=await sb('/rest/v1/production_centers?facility_id=eq.'+facility.id+'&active=eq.true&select=*&order=name');
+  remoteFactors=await sb('/rest/v1/emission_factors?select=*&order=activity_type,year.desc');
+  remoteRecords=await sb('/rest/v1/carbon_records?facility_id=eq.'+facility.id+'&select=*&order=period.desc,created_at.desc');
+  remoteDocs=await sb('/rest/v1/documents?facility_id=eq.'+facility.id+'&status=eq.active&select=*&order=uploaded_at.desc');
+  document.getElementById('userName').textContent=remoteProfile?.full_name||remoteUser.email||'Kullanıcı';document.getElementById('userRole').textContent=roleLabels[remoteProfile?.role]||'Rol: '+(remoteProfile?.role||'tanımsız');
+  fillCenters();fillDocumentSelect();renderRemote();showApp();nav('dashboard');
+}
+function fillCenters(){const opts=centers.map(c=>`<option>${esc(c.name)}</option>`).join('');document.getElementById('center').innerHTML=opts||'<option>Konfeksiyon Üretimi</option>';document.getElementById('docCenter').innerHTML=opts||'<option>Konfeksiyon Üretimi</option>'}
+function fillDocumentSelect(){document.getElementById('sourceDocument').innerHTML='<option value="">Belge seçilmedi</option>'+remoteDocs.map(d=>`<option value="${d.id}">${esc(d.file_name)} · ${esc(d.document_type)}</option>`).join('')}
+function renderRemote(){renderRemoteDashboard();renderRemoteTable();renderRemoteFactors();renderRemoteDocs()}
+function renderRemoteDashboard(){const rows=remoteRecords.map(r=>({r,e:emissionFor(r)}));const s1=rows.filter(x=>['natural_gas','diesel','gasoline','lpg'].includes(x.r.activity_type)).reduce((a,x)=>a+(x.e||0),0);const s2=rows.filter(x=>x.r.activity_type==='electricity').reduce((a,x)=>a+(x.e||0),0);const s3=rows.filter(x=>['waste','fabric','packaging','employee_commuting','business_travel','upstream_transport'].includes(x.r.activity_type)).reduce((a,x)=>a+(x.e||0),0);const total=s1+s2+s3;document.getElementById('kpiTotal').textContent=fmt(total,2)+' tCO₂e';document.getElementById('kpiS1').textContent=fmt(s1,2)+' t';document.getElementById('kpiS2').textContent=fmt(s2,2)+' t';document.getElementById('kpiS3').textContent=fmt(s3,2)+' t';const periods=[...new Set(remoteRecords.map(r=>formatPeriod(r.period)))];const req=['electricity','natural_gas','production','water','waste'];const good=new Set(remoteRecords.filter(r=>Number(r.quantity)>0&&r.source_document_id).map(r=>formatPeriod(r.period)+'|'+r.activity_type));const completeness=periods.length?Math.round((req.reduce((n,a)=>n+periods.filter(p=>good.has(p+'|'+a)).length,0)/(periods.length*req.length))*100):0;document.getElementById('kpiCompleteness').textContent=Math.min(100,completeness)+'%';document.getElementById('donutTotal').textContent=fmt(total,2)+' t';const months=[...Array(12)].map((_,i)=>String(i+1).padStart(2,'0'));const mv=months.map(m=>remoteRecords.filter(r=>formatPeriod(r.period).endsWith('-'+m)).reduce((a,r)=>a+(emissionFor(r)||0),0));const mm=Math.max(...mv,1);document.getElementById('trendBars').innerHTML=months.map((m,i)=>`<div class="bar-row"><span>${m}</span><div class="bar"><i style="width:${mv[i]/mm*100}%"></i></div><b>${fmt(mv[i],2)}</b></div>`).join('');const scopes=[['Kapsam 1',s1],['Kapsam 2',s2],['Kapsam 3',s3]],sm=Math.max(...scopes.map(x=>x[1]),1);document.getElementById('scopeBars').innerHTML=scopes.map(([n,v])=>`<div class="bar-row"><span>${n}</span><div class="bar"><i style="width:${v/sm*100}%"></i></div><b>${fmt(v,2)} t</b></div>`).join('');const cvals=centers.map(c=>[c.name,remoteRecords.filter(r=>r.production_center_id===c.id).reduce((a,r)=>a+(emissionFor(r)||0),0)]),cm=Math.max(...cvals.map(x=>x[1]),1);document.getElementById('centerBars').innerHTML=cvals.map(([n,v])=>`<div class="bar-row"><span>${esc(n.replace(' Üretimi',''))}</span><div class="bar"><i style="width:${v/cm*100}%"></i></div><b>${fmt(v,2)} t</b></div>`).join('')||'<div class="empty">Henüz kayıt yok.</div>';const elec=remoteRecords.filter(r=>r.activity_type==='electricity').reduce((a,r)=>a+Number(r.quantity||0),0),prod=remoteRecords.filter(r=>r.activity_type==='production').reduce((a,r)=>a+Number(r.quantity||0),0),kwhPer=prod?elec/prod:0,kgPer=prod?s2*1000/prod:0;document.getElementById('intensityBars').innerHTML=`<div class="bar-row"><span>kWh/ad.</span><div class="bar"><i style="width:${Math.min(100,kwhPer*40)}%"></i></div><b>${fmt(kwhPer,3)}</b></div><div class="bar-row"><span>kgCO₂e/ad.</span><div class="bar"><i style="width:${Math.min(100,kgPer*700)}%"></i></div><b>${fmt(kgPer,4)}</b></div><div class="bar-row"><span>Çalışan</span><div class="bar"><i style="width:100%"></i></div><b>${fmt(facility.employee_count||0,0)}</b></div>`;const pending=remoteFactors.filter(f=>!['approved','active'].includes(f.status));document.getElementById('issues').innerHTML=(pending.length?`<div class="source"><strong style="font-size:11px">Doğrulama bekleyen faktör</strong><p>${pending.length} emisyon faktörü henüz onaylı değil.</p><span class="badge warn">Bekliyor</span></div>`:'')+(!remoteDocs.length?'<div class="source"><strong style="font-size:11px">Kaynak belgeler</strong><p>Henüz belge arşivlenmemiş.</p><span class="badge warn">Eksik</span></div>':'<div class="source"><strong style="font-size:11px">Belge arşivi</strong><p>'+remoteDocs.length+' kaynak belge merkezi arşivde.</p><span class="badge ok">Hazır</span></div>')}
+function renderRemoteTable(){const t=document.getElementById('recordsTable');t.innerHTML=`<thead><tr><th>Dönem</th><th>Merkez</th><th>Faaliyet</th><th>Miktar</th><th>Kaynak</th><th>Emisyon</th><th>Durum</th></tr></thead><tbody>${remoteRecords.map(r=>{const e=emissionFor(r);return `<tr><td>${formatPeriod(r.period)}</td><td>${esc(centerName(r.production_center_id))}</td><td>${esc(activityLabels[r.activity_type]||r.activity_type)}</td><td>${fmt(r.quantity,3)} ${esc(r.unit)}</td><td>${esc(r.source_reference||'—')}</td><td>${e==null?'—':fmt(e,4)+' tCO₂e'}</td><td>${r.status==='approved'?'<span class="badge ok">Onaylı</span>':r.status==='rejected'?'<span class="badge warn">Reddedildi</span>':'<span class="badge warn">Bekliyor</span>'}</td></tr>`}).join('')||'<tr><td colspan="7"><div class="empty">Henüz veri kaydı yok.</div></td></tr>'}</tbody>`}
+function renderRemoteFactors(){document.getElementById('factorTable').innerHTML=remoteFactors.map(f=>`<tr><td>${esc(f.name)}</td><td>${f.value==null?'—':fmt(f.value,6)}</td><td>${esc(f.unit)}</td><td>${f.year||'—'}</td><td>${esc(f.source_name||'—')}</td><td>${['approved','active'].includes(f.status)?'<span class="badge ok">Aktif</span>':'<span class="badge warn">Bekliyor</span>'}</td></tr>`).join('')||'<tr><td colspan="6"><div class="empty">Henüz emisyon faktörü yok.</div></td></tr>'}
+function renderRemoteDocs(){const list=document.getElementById('docList');document.getElementById('docCount').textContent=remoteDocs.length+' belge';list.innerHTML=remoteDocs.length?remoteDocs.map(d=>`<div class="doc-row"><div><div class="doc-name">${esc(d.file_name)}</div><div class="doc-sub">${esc(docTypeLabels[d.document_type]||d.document_type)} · ${formatPeriod(d.period)} · ${fmt((d.file_size_bytes||0)/1024,1)} KB</div></div><div class="doc-sub">${esc(centerName(d.production_center_id))}</div><div class="doc-sub">${esc(d.description||'—')}</div><div><span class="badge ok">Arşivde</span></div><div class="doc-actions"><button class="mini-btn" data-remote-open="${d.id}">Aç</button><button class="mini-btn danger" data-remote-delete="${d.id}">Sil</button></div></div>`).join(''):'<div class="empty">Henüz belge yüklenmedi.</div>';document.querySelectorAll('[data-remote-open]').forEach(b=>b.onclick=()=>openRemoteDoc(b.dataset.remoteOpen));document.querySelectorAll('[data-remote-delete]').forEach(b=>b.onclick=()=>deleteRemoteDoc(b.dataset.remoteDelete))}
+async function openRemoteDoc(id){const d=remoteDocs.find(x=>x.id===id);if(!d)return;const r=await fetch(SB_URL+'/storage/v1/object/'+d.storage_bucket+'/'+d.storage_path,{headers:{apikey:SB_KEY,Authorization:'Bearer '+remoteSession.access_token}});if(!r.ok)return toast('Belge açılamadı.');const blob=await r.blob(),url=URL.createObjectURL(blob);window.open(url,'_blank','noopener');setTimeout(()=>URL.revokeObjectURL(url),60000)}
+async function deleteRemoteDoc(id){const d=remoteDocs.find(x=>x.id===id);if(!d||!confirm('Bu belge arşivden silinsin mi?'))return;try{await sb('/rest/v1/documents?id=eq.'+id,{method:'PATCH',body:JSON.stringify({status:'deleted'})});const r=await fetch(SB_URL+'/storage/v1/object/'+d.storage_bucket+'/'+d.storage_path,{method:'DELETE',headers:{apikey:SB_KEY,Authorization:'Bearer '+remoteSession.access_token}});await loadRemoteState();toast(r.ok?'Belge silindi.':'Belge kaydı silindi; dosya silinemedi.')}catch(e){toast(e.message)}}
+async function signIn(){const email=document.getElementById('loginEmail').value.trim(),password=document.getElementById('loginPassword').value;if(!email||!password)return showLoginMessage('E-posta ve şifre gerekli.');try{const r=await fetch(SB_URL+'/auth/v1/token?grant_type=password',{method:'POST',headers:headers(),body:JSON.stringify({email,password})}),data=await r.json();if(!r.ok)throw new Error(data.error_description||data.msg||'Giriş başarısız.');remoteSession=data;sessionStorage.setItem(AUTH_KEY,JSON.stringify(data));await loadRemoteState()}catch(e){showLoginMessage(e.message)}}
+async function signUp(){const email=document.getElementById('loginEmail').value.trim(),password=document.getElementById('loginPassword').value;if(!email||!password)return showLoginMessage('E-posta ve şifre gerekli.');if(password.length<6)return showLoginMessage('Şifre en az 6 karakter olmalı.');try{const r=await fetch(SB_URL+'/auth/v1/signup',{method:'POST',headers:headers(),body:JSON.stringify({email,password})}),data=await r.json();if(!r.ok)throw new Error(data.msg||data.error_description||'Hesap oluşturulamadı.');if(data.access_token){remoteSession=data;sessionStorage.setItem(AUTH_KEY,JSON.stringify(data));await loadRemoteState()}else showLoginMessage('Hesap oluşturuldu. E-posta doğrulaması gerekiyorsa gelen kutunuzu kontrol edin.',true)}catch(e){showLoginMessage(e.message)}}
+async function logout(){try{if(remoteSession?.access_token)await fetch(SB_URL+'/auth/v1/logout',{method:'POST',headers:{apikey:SB_KEY,Authorization:'Bearer '+remoteSession.access_token}})}finally{sessionStorage.removeItem(AUTH_KEY);remoteSession=null;showLogin()}}
+const entryRemote=replaceNode('entryForm');if(entryRemote)entryRemote.addEventListener('submit',async e=>{e.preventDefault();try{const row={facility_id:facility.id,production_center_id:centerIdByName(document.getElementById('center').value),period:document.getElementById('period').value+'-01',activity_type:document.getElementById('activity').value,quantity:Number(document.getElementById('quantity').value),unit:document.getElementById('unit').value,source_reference:document.getElementById('source').value||null,source_document_id:document.getElementById('sourceDocument').value||null,notes:document.getElementById('note').value||null,status:'pending',entered_by:remoteUser.id};await sb('/rest/v1/carbon_records',{method:'POST',headers:{Prefer:'return=minimal'},body:JSON.stringify(row)});e.target.reset();document.getElementById('period').value='2026-09';await loadRemoteState();toast('Veri merkezi sisteme kaydedildi.')}catch(err){toast(err.message)}});
+const demoRemote=replaceNode('demoBtn');if(demoRemote){demoRemote.textContent='Verileri yenile';demoRemote.onclick=()=>loadRemoteState().then(()=>toast('Merkezi veriler yenilendi.')).catch(e=>toast(e.message))}
+const clearRemote=replaceNode('clearBtn');if(clearRemote)clearRemote.style.display='none';
+const exportRemote=replaceNode('exportBtn');if(exportRemote)exportRemote.onclick=()=>{const head=['dönem','merkez','faaliyet','miktar','birim','kaynak','durum'];const csv=[head.join(','),...remoteRecords.map(r=>[formatPeriod(r.period),centerName(r.production_center_id),activityLabels[r.activity_type]||r.activity_type,r.quantity,r.unit,r.source_reference||'',r.status].map(v=>'"'+String(v).replaceAll('"','""')+'"').join(','))].join('\n');const blob=new Blob([csv],{type:'text/csv;charset=utf-8'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='elyaf-kilis-karbon-verileri.csv';a.click();URL.revokeObjectURL(a.href)};
+const reportRemote=replaceNode('reportSummary');if(reportRemote)reportRemote.onclick=()=>toast('Toplam emisyon: '+document.getElementById('kpiTotal').textContent);const kpiRemote=replaceNode('kpiSummary');if(kpiRemote)kpiRemote.onclick=()=>toast('Veri tamlığı: '+document.getElementById('kpiCompleteness').textContent);const evidenceRemote=replaceNode('evidenceSummary');if(evidenceRemote)evidenceRemote.onclick=()=>toast('Arşivde '+remoteDocs.length+' belge var.');
+const filesRemote=replaceNode('docFiles');if(filesRemote)filesRemote.addEventListener('change',e=>{window.selectedRemoteFiles=[...e.target.files];toast(window.selectedRemoteFiles.length+' dosya seçildi')});const saveDocsRemote=replaceNode('saveDocsBtn');if(saveDocsRemote)saveDocsRemote.addEventListener('click',async()=>{const files=window.selectedRemoteFiles||[];if(!files.length)return toast('Önce dosya seçin.');try{for(const file of files){const clean=file.name.replace(/[^a-zA-Z0-9._-]+/g,'_');const path=facility.id+'/'+document.getElementById('docPeriod').value+'/'+crypto.randomUUID()+'-'+clean;const up=await fetch(SB_URL+'/storage/v1/object/carbon-documents/'+path,{method:'POST',headers:{apikey:SB_KEY,Authorization:'Bearer '+remoteSession.access_token,'Content-Type':file.type||'application/octet-stream','x-upsert':'false'},body:file});if(!up.ok)throw new Error(await up.text());await sb('/rest/v1/documents',{method:'POST',headers:{Prefer:'return=minimal'},body:JSON.stringify({facility_id:facility.id,production_center_id:centerIdByName(document.getElementById('docCenter').value),period:document.getElementById('docPeriod').value+'-01',document_type:document.getElementById('docType').value,file_name:file.name,storage_bucket:'carbon-documents',storage_path:path,mime_type:file.type||null,file_size_bytes:file.size,description:document.getElementById('docNote').value||null,uploaded_by:remoteUser.id,status:'active'})})}window.selectedRemoteFiles=[];filesRemote.value='';document.getElementById('docNote').value='';await loadRemoteState();toast('Belgeler merkezi arşive yüklendi.')}catch(err){toast('Belge yükleme hatası: '+err.message)}});
+const docExportRemote=replaceNode('docExportBtn');if(docExportRemote)docExportRemote.onclick=()=>{const head=['dosya','dönem','merkez','belge_türü','açıklama','yüklenme_tarihi'];const csv=[head.join(','),...remoteDocs.map(d=>[d.file_name,formatPeriod(d.period),centerName(d.production_center_id),d.document_type,d.description||'',d.uploaded_at].map(v=>'"'+String(v).replaceAll('"','""')+'"').join(','))].join('\n');const blob=new Blob([csv],{type:'text/csv;charset=utf-8'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='elyaf-kilis-belge-arsivi.csv';a.click();URL.revokeObjectURL(a.href)};
+document.getElementById('loginBtn').onclick=signIn;document.getElementById('signupBtn').onclick=signUp;document.getElementById('logoutBtn').onclick=logout;
+if(remoteSession?.access_token)loadRemoteState().catch(()=>showLogin());else showLogin();
+</script>
+</div>
+</body>
+</html>
